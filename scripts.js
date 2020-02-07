@@ -50,3 +50,33 @@ map.on('click', function(e) {
         map.closePopup();
     });
  });
+
+ function onLocationFound(e) {
+
+     L.marker(e.latlng).addTo(map)
+         .bindPopup("This is your approximate location. <br>Click on the map to create a start/end location for your route.").openPopup();
+
+ }
+ function onLocationError(e) {
+   alert(e.message);
+ }
+
+ map.on('locationfound', onLocationFound);//this is the event listener
+ map.on('locationerror', onLocationError);
+
+ map.locate({setView: true, maxZoom: 16});
+
+ var stateChangingButton = L.easyButton({
+    states: [{
+            stateName: 'zoom-to-school',
+            icon:      'fa fa-child',
+            title:     'zoom to your location',
+            onClick: function(btn, map) {
+              map.locate({setView: true, maxZoom: 16});
+            }
+    }]
+});
+
+stateChangingButton.addTo(map);
+
+window.alert("Alert\nThis site wants to use your location data to show you where you are on a map. This data is being used to make routing easier for you if you are navigating from your location. Your location data will not be stored or shared with anyone. To block/unblock this site from using your location data, go to your browser settings.")
